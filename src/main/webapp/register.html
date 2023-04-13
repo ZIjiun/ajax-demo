@@ -55,43 +55,46 @@
 
 </div>
 
+<script src="js/axios-0.18.0.js"></script>
+
 <script>
 
+    // // 1. 給使用者名稱輸入框綁定，失去焦點事件
+    // document.getElementById("username").onblur = function () {
+    //     // 2.發送 ajax 請求
+    //     // 獲取username的值
+    //     var username = this.value;
+    //
+    //     axios({
+    //         method: "get",
+    //         url: "http://localhost:8080/ajax-demo/selectUserServlet?username" + username
+    //     }).then(function (resp) {
+    //         if (this.readyState == 4 && this.status == 200) {
+    //             // 判斷
+    //             if (resp.data == "true") {
+    //                 // 使用者名稱存在，顯示提示訊息
+    //                 document.getElementById("username_err").style.display = '';
+    //             } else {
+    //                 // 使用者名稱不存在，清除提示訊息
+    //                 document.getElementById("username_err").style.display = '';
+    //             }
+    //         }
+    //     })
+    // }
+
     // 1. 給使用者名稱輸入框綁定，失去焦點事件
-
     document.getElementById("username").onblur = function () {
-        // 2. 發送 ajax 請求
-        // 獲取username的值
+
         var username = this.value;
-        console.log("123123122")
-
-        // 2.1 創建核心物件
-        var xhttp;
-        if (window.XMLHttpRequest) {
-            xhttp = new XMLHttpRequest();
-        } else {
-            // code for IE6, IE5
-            xhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-
-        // 2.2 發送請求
-        xhttp.open("GET", "http://localhost:8080/ajax-demo/selectUserServlet?username="+username);
-        xhttp.send();
-
-        // 2.3 獲取響應
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                // 判斷
-                if (this.responseText == "true") {
-                    // 使用者名稱存在，顯示提示訊息
-                    document.getElementById("username_err").style.display = '';
-                } else {
-                    // 使用者名稱不存在，清除提示訊息
-                    document.getElementById("username_err").style.display = 'none';
-                }
+        axios.get("http://localhost:8080/ajax-demo/selectUserServlet?username=" + username).then(function (resp) {
+            if (resp.data === true) {
+                document.getElementById("username_err").style.display = '';
+            } else {
+                document.getElementById("username_err").style.display = 'none';
             }
-        };
+        })
     }
+
 </script>
 
 </body>
